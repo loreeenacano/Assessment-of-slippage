@@ -1,0 +1,10 @@
+# Archivos temporales de MATLAB
+*.asv
+*.m~  
+*.mlx~  
+*.mat  
+*.fig  
+*.slxc  
+*.mdl  
+*.mex*  
+*.log  
