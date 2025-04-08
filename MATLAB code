@@ -1,0 +1,97 @@
+dataPatient30 = readtable("C:\Users\Loren\OneDrive - Fundación Universitaria San Pablo CEU\Escritorio\3º2 uni\proyectos\Paciente_30.txt");
+dataPatient24 = readtable("C:\Users\Loren\OneDrive - Fundación Universitaria San Pablo CEU\Escritorio\3º2 uni\proyectos\Paciente_41.txt");
+
+%Filtro device en dos series: T y H
+H2 = strcmp(dataPatient30.Device, 'H');
+aX_H2 = dataPatient30.aX(H2);
+aY_H2 = dataPatient30.aY(H2);
+aZ_H2 = dataPatient30.aZ(H2);
+T2 = strcmp(dataPatient30.Device, 'T');
+aX_T2 = dataPatient30.aX(T2);
+aY_T2 = dataPatient30.aY(T2);
+aZ_T2 = dataPatient30.aZ(T2);
+H1 = strcmp(dataPatient24.Device, 'H');
+aX_H1 = dataPatient24.aX(H1);
+aY_H1 = dataPatient24.aY(H1);
+aZ_H1 = dataPatient24.aZ(H1);
+T1 = strcmp(dataPatient24.Device, 'T');
+aX_T1 = dataPatient24.aX(T1);
+aY_T1 = dataPatient24.aY(T1);
+aZ_T1 = dataPatient24.aZ(T1);
+
+%Normalizo datos a 180
+aX_H1_wrapped = wrapTo180(aX_H1);
+aY_H1_wrapped = wrapTo180(aY_H1);
+aZ_H1_wrapped = wrapTo180(aZ_H1);
+aX_T1_wrapped = wrapTo180(aX_T1);
+aY_T1_wrapped = wrapTo180(aY_T1);
+aZ_T1_wrapped = wrapTo180(aZ_T1);
+aX_H2_wrapped = wrapTo180(aX_H2);
+aY_H2_wrapped = wrapTo180(aY_H2);
+aZ_H2_wrapped = wrapTo180(aZ_H2);
+aX_T2_wrapped = wrapTo180(aX_T2);
+aY_T2_wrapped = wrapTo180(aY_T2);
+aZ_T2_wrapped = wrapTo180(aZ_T2);
+
+% Centrar datos para graficar despues 
+aX_H1_c = aX_H1 - mean(aX_H1);
+aY_H1_c = aY_H1 - mean(aY_H1);
+aZ_H1_c = aZ_H1 - mean(aZ_H1);
+aX_T1_c = aX_T1 - mean(aX_T1);
+aY_T1_c = aY_T1 - mean(aY_T1);
+aZ_T1_c = aZ_T1 - mean(aZ_T1);
+aX_H2_c = aX_H2 - mean(aX_H2);
+aY_H2_c = aY_H2 - mean(aY_H2);
+aZ_H2_c = aZ_H2 - mean(aZ_H2);
+aX_T2_c = aX_T2 - mean(aX_T2);
+aY_T2_c = aY_T2 - mean(aY_T2);
+aZ_T2_c = aZ_T2 - mean(aZ_T2);
+
+%Graficar uno de cada
+figure;
+plot(aX_H1_c)
+hold on
+plot(aX_T1_c)
+legend('Cabeza','Torso')
+title('Comparación de angulos en el eje X')
+figure;
+plot(aY_H1_c)
+hold on
+plot(aY_T1_c)
+legend('Cabeza','Torso')
+title('Comparación de angulos en el eje Y')
+figure;
+plot(aZ_H1_c)
+hold on
+plot(aZ_T1_c)
+legend('Cabeza','Torso')
+title('Comparación de angulos en el eje Z')
+
+%Diferencias entre angulos
+diff_aX_1 = aX_H1_c - aX_T1_c;
+diff_aY_1 = aY_H1_c - aY_T1_c;
+diff_aZ_1 = aZ_H1_c - aZ_T1_c;
+diff_1 = sqrt(diff_aX_1.^2 + diff_aY_1.^2 + diff_aZ_1.^2);
+diff_aX_2 = aX_H2_c - aX_T2_c;
+diff_aY_2 = aY_H2_c - aY_T2_c;
+diff_aZ_2 = aZ_H2_c - aZ_T2_c;
+diff_2 = sqrt(diff_aX_2.^2 + diff_aY_2.^2 + diff_aZ_2.^2);
+
+%Aceleraciones
+acc_aX_H1 = diff(diff(aX_H1_c));
+acc_aY_H1 = diff(diff(aY_H1_c));
+acc_aZ_H1 = diff(diff(aZ_H1_c));
+acc_H1_magnitud = sqrt(acc_aX_H1.^2 + acc_aY_H1.^2 + acc_aZ_H1.^2);
+acc_aX_T1 = diff(diff(aX_T1_c));
+acc_aY_T1 = diff(diff(aY_T1_c));
+acc_aZ_T1 = diff(diff(aZ_T1_c));
+acc_T1_magnitud = sqrt(acc_aX_T1.^2 + acc_aY_T1.^2 + acc_aZ_T1.^2);
+acc_aX_H2 = diff(diff(aX_H2_c));
+acc_aY_H2 = diff(diff(aY_H2_c));
+acc_aZ_H2 = diff(diff(aZ_H2_c));
+acc_H2_magnitud = sqrt(acc_aX_H2.^2 + acc_aY_H2.^2 + acc_aZ_H2.^2);
+acc_aX_T2 = diff(diff(aX_T2_c));
+acc_aY_T2 = diff(diff(aY_T2_c));
+acc_aZ_T2 = diff(diff(aZ_T2_c));
+acc_T2_magnitud = sqrt(acc_aX_T2.^2 + acc_aY_T2.^2 + acc_aZ_T2.^2);
+
